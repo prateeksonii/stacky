@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { authFormAtom } from "../../atoms";
+import { authFormAtom, authFormValuesAtom } from "../../atoms";
 
 type FormValues = {
   password: string;
@@ -17,7 +17,7 @@ const PasswordForm = () => {
     },
   });
 
-  const [authForm, setAuthForm] = useAtom(authFormAtom);
+  const [authFormValues, setAuthFormValues] = useAtom(authFormValuesAtom);
 
   const onSubmit: SubmitHandler<FormValues> = async (values) => {
     const { password } = values;
@@ -36,11 +36,11 @@ const PasswordForm = () => {
   return (
     <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-1">
-        <label htmlFor="email">Email address</label>
+        <label htmlFor="password">Password</label>
         <input
           className="bg-primary-light p-2 rounded"
-          type="email"
-          id="email"
+          type="password"
+          id="password"
           placeholder="Your password"
           {...register("password", {
             required: "Password cannot be empty",
