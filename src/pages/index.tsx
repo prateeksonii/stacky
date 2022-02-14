@@ -1,6 +1,19 @@
-import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { ImGithub } from "react-icons/im";
+import { useCallback } from "react";
+import { NextPage } from "next";
+import { useRouter } from "next/router";
 
-const IndexPage = () => {
+const IndexPage: NextPage = () => {
+  const router = useRouter();
+
+  const handleLogin = useCallback(async () => {
+    await signIn("github", {
+      callbackUrl: "http://localhost:3000/app",
+    });
+    // router.replace("/app");
+  }, []);
+
   return (
     <div className="h-screen w-screen flex flex-col">
       <header>
@@ -15,11 +28,12 @@ const IndexPage = () => {
           for <span className="text-primary font-bold">developers</span>
         </h1>
         <section>
-          <Link href="/signin" passHref>
-            <a className="text-lg font-bold px-8 py-4 bg-primary rounded">
-              Get started
-            </a>
-          </Link>
+          <button
+            className="text-lg font-bold px-8 py-4 bg-primary rounded flex items-center gap-2"
+            onClick={handleLogin}
+          >
+            <ImGithub /> Sign in with github
+          </button>
         </section>
       </main>
     </div>
